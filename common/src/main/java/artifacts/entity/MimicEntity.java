@@ -39,16 +39,16 @@ public class MimicEntity extends Mob implements Enemy {
     public MimicEntity(EntityType<? extends MimicEntity> type, Level world) {
         super(type, world);
         moveControl = new MimicMovementController(this);
-        xpReward = 10;
+        xpReward = 30;
     }
 
     public static AttributeSupplier.Builder createMobAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 60)
+                .add(Attributes.MAX_HEALTH, 75)
                 .add(Attributes.FOLLOW_RANGE, 16)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 0.8)
-                .add(Attributes.MOVEMENT_SPEED, 0.8)
-                .add(Attributes.ATTACK_DAMAGE, 5);
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0)
+                .add(Attributes.MOVEMENT_SPEED, 1.0)
+                .add(Attributes.ATTACK_DAMAGE, 12);
     }
 
     public void setFacing(Direction facing) {
@@ -299,7 +299,7 @@ public class MimicEntity extends Mob implements Enemy {
                 mimic.jumpControl.jump();
             }
             if (mimic.getMoveControl() instanceof MimicMovementController controller) {
-                controller.setSpeed(1.2);
+                controller.setSpeed(1.8);
             }
         }
     }
@@ -321,7 +321,7 @@ public class MimicEntity extends Mob implements Enemy {
         @Override
         public void tick() {
             if (mimic.getMoveControl() instanceof MimicMovementController controller) {
-                controller.setSpeed(1);
+                controller.setSpeed(1.5);
             }
         }
     }
@@ -336,7 +336,7 @@ public class MimicEntity extends Mob implements Enemy {
             super(mimic);
             this.mimic = mimic;
             rotationDegrees = 180 * mimic.getYRot() / (float) Math.PI;
-            jumpDelay = mimic.random.nextInt(320) + 640;
+            jumpDelay = mimic.random.nextInt(160) + 320;
         }
 
         public void setDirection(float rotation, boolean shouldJump) {
@@ -347,7 +347,7 @@ public class MimicEntity extends Mob implements Enemy {
         }
 
         public void setSpeed(double speed) {
-            this.speedModifier = speed;
+            this.speedModifier = speed * 2.0;
             operation = Operation.MOVE_TO;
         }
 
@@ -366,7 +366,7 @@ public class MimicEntity extends Mob implements Enemy {
                         mimic.xxa = mimic.zza = 0;
                         mimic.setSpeed(0);
                     } else {
-                        jumpDelay = mimic.random.nextInt(320) + 640;
+                        jumpDelay = mimic.random.nextInt(160) + 320;
 
                         mimic.jumpControl.jump();
                         mimic.playSound(mimic.getJumpingSound(), mimic.getSoundVolume(), mimic.getVoicePitch());
